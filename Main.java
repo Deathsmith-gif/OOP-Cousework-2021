@@ -50,7 +50,7 @@ public class Main {
                     break;
                     default:
                     System.out.println("Please Enter a number in the menu");
-    
+
                 }
                 System.out.println("***********************************************************");
                 System.out.println("What would you like to do next?");

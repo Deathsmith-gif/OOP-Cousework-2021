@@ -1,21 +1,18 @@
-
 import javax.swing.*;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
+
+
 // import static Forumala1ChampionshipManager.raceDriver;
 
 public class Gui extends JFrame {
+        static Forumala1ChampionshipManager fcm = new Forumala1ChampionshipManager();
         public static void main(String[] args) {
-                Forumala1ChampionshipManager fcm = new Forumala1ChampionshipManager();
 
                 String[] columnNames = { "Driver Name", "Driver Team", "No. of 1st", "No. of 2nd", "No. of 3rd",
                                 "Points", "No. of Races" };
+                String[] columnNames2 = { "Date","Driver Name","Position"};
                 Object[][] values = new Object[Forumala1ChampionshipManager.raceDriver.size()][7];
                 for (int i = 0; i < values.length; i++) {
                         values[i][0] = Forumala1ChampionshipManager.raceDriver.get(i).getname();
@@ -30,6 +27,7 @@ public class Gui extends JFrame {
                 JTable table = new JTable(values, columnNames);
                 JFrame frame = new JFrame("F1 Driver data");
                 JPanel panel = new JPanel();
+                JPanel randomPanel = new JPanel();
                 frame.add(new JScrollPane(table));
                 frame.setSize(1280, 720);
                 frame.setVisible(true);
@@ -53,8 +51,18 @@ public class Gui extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                                 fcm.randomrRace();
-                               
+                                System.out.println("Working");
+                                Object[][] G =fcm.StringRace();
+                                JTable table = new JTable(values, columnNames);
+                                JFrame frame = new JFrame("Random Table Values");
+                                JPanel randomPanel = new JPanel();
+                                frame.add(new JScrollPane(table));
+                                frame.setSize(1280, 720);
+                                frame.setVisible(true);
+                                table.setAutoCreateRowSorter(true);
+                                frame.add(panel);
                         }
+                        
                 });
                 raceButton.addActionListener(new ActionListener() {
 

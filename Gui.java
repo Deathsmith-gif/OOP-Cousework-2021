@@ -7,11 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-// import static Forumala1ChampionshipManager.raceDriver;
-
 public class Gui extends JFrame {
 
         public Gui(Forumala1ChampionshipManager fcm) {
+                // fcm is a instance of Forumala1ChampionshipManager
 
                 String[] columnNames = { "Driver Name", "Driver Team", "No. of 1st", "No. of 2nd", "No. of 3rd",
                                 "Points", "No. of Races" };
@@ -23,6 +22,10 @@ public class Gui extends JFrame {
                 Object[][] values = new Object[Forumala1ChampionshipManager.raceDriver.size()][7];
                 fcm.sortForTable();
                 GridLayout Layout = new GridLayout(9, 10);
+
+                /** 
+                 * 4 table models for 4 tables, tableModel1 for the defualt 
+                */
 
                 DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
                 DefaultTableModel tableModel2 = new DefaultTableModel(columnNames2, 0);
@@ -59,8 +62,6 @@ public class Gui extends JFrame {
                 randButton.setMaximumSize(size);
                 JTextField Search = new JTextField();
                 Search.setText("Enter what you seek here");
-
-                // size
                 add(randButton);
                 add(raceButton);
                 add(dateButton);
@@ -111,7 +112,7 @@ public class Gui extends JFrame {
                         public void actionPerformed(ActionEvent e) {
                                 fcm.sortDate();
                                 for (Race j : Forumala1ChampionshipManager.RandomDriverList) {
-                                        if ((j.getPosition()!=-1) )  {
+                                        if ((j.getPosition() != -1)) {
                                                 Object[] driver = { j.getDriverName(), j.getDate(),
                                                                 j.getPosition() };
                                                 tableModel3.addRow(driver);
@@ -127,7 +128,8 @@ public class Gui extends JFrame {
                                 for (Formula1Driver i : Forumala1ChampionshipManager.raceDriver) {
                                         if (t.equalsIgnoreCase(i.getname())) {
                                                 for (Race j : Forumala1ChampionshipManager.RandomDriverList) {
-                                                        if (t.equalsIgnoreCase(j.getDriverName()) && (j.getPosition()!=-1) )  {
+                                                        if (t.equalsIgnoreCase(j.getDriverName())
+                                                                        && (j.getPosition() != -1)) {
                                                                 Object[] driver = { j.getDriverName(), j.getDate(),
                                                                                 j.getPosition() };
                                                                 tableModel3.addRow(driver);

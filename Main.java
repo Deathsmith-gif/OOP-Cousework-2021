@@ -3,8 +3,10 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+        // fcm is an Instance of Forumala1ChampionshipManager
         Forumala1ChampionshipManager fcm = new Forumala1ChampionshipManager();
         Scanner input = new Scanner(System.in);
+        // @Param uInput is the user Input
         int uInput = 0;
         System.out.println("***********************************************************");
         System.out.println("Welcome to the F1 racing Program :) ");
@@ -22,6 +24,7 @@ public class Main {
                 System.out.println("-1) To exit the program");
                 System.out.println("***********************************************************");
                 uInput = Integer.parseInt(input.nextLine());
+                //to call all the fucntions
                 switch (uInput) {
                     case 1:
                         fcm.CreateDriver();
@@ -66,7 +69,6 @@ public class Main {
                 System.out.println("Please enter an integer >:-| ");
                 System.out.println("***********************************************************");
             }
-            // when outputting the -1
 
         }
 

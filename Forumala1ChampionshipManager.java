@@ -41,6 +41,7 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
                 if (ArrayTeam.contains(teamName)) {
                     System.out.println("That team already exists Please enter a unique name");
                     System.out.println("These are the current teams");
+                    System.out.println();
                     for (String j : ArrayTeam) {
                         System.out.println(j);
                     }
@@ -457,6 +458,7 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
             racerNRaace = Integer.parseInt(temp.substring(linepos1, linepos2));
             Formula1Driver raceguy = new Formula1Driver(racerName, racerLocation, racerTeam, racerFpos, racerSpos,
                     racerTpos, racerPoints, racerNRaace);
+            ArrayTeam.add(racerTeam);        
             Race upRace = new Race(date, racerName, pos);
             raceDriver.add(raceguy);
             RandomDriverList.add(upRace);

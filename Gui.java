@@ -17,18 +17,23 @@ public class Gui extends JFrame {
                                 "Points", "No. of Races" };
                 String[] columnNames2 = { "Date", "Driver Name", "Position" };
                 String[] columnNames3 = { "Driver Name", "Date", "Position" };
+                String[] columnNames4 = { "Driver Name", "Date", "Position" };
                 Object[][] G = fcm.StringRace();
 
                 Object[][] values = new Object[Forumala1ChampionshipManager.raceDriver.size()][7];
                 fcm.sortForTable();
-                GridLayout Layout = new GridLayout(8, 10);
+                GridLayout Layout = new GridLayout(9, 10);
 
                 DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
                 DefaultTableModel tableModel2 = new DefaultTableModel(columnNames2, 0);
                 DefaultTableModel tableModel3 = new DefaultTableModel(columnNames3, 0);
+                DefaultTableModel tableModel4 = new DefaultTableModel(columnNames4, 0);
+
                 JTable table = new JTable(tableModel);
                 JTable table2 = new JTable(tableModel2);
                 JTable table3 = new JTable(tableModel3);
+                JTable table4 = new JTable(tableModel4);
+
                 for (Formula1Driver i : Forumala1ChampionshipManager.raceDriver) {
                         Object[] driver = { i.getname(), i.getteam(), i.getfpos(), i.getspos(), i.gettpos(),
                                         i.getpoints(), i.getnRaces(), };
@@ -38,6 +43,7 @@ public class Gui extends JFrame {
                 add(new JScrollPane(table));
                 add(new JScrollPane(table2));
                 add(new JScrollPane(table3));
+                add(new JScrollPane(table4));
 
                 setLayout(Layout);
 
@@ -103,8 +109,14 @@ public class Gui extends JFrame {
 
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                
-
+                                fcm.sortDate();
+                                for (Race j : Forumala1ChampionshipManager.RandomDriverList) {
+                                        if ((j.getPosition()!=-1) )  {
+                                                Object[] driver = { j.getDriverName(), j.getDate(),
+                                                                j.getPosition() };
+                                                tableModel3.addRow(driver);
+                                        }
+                                }
                         }
                 });
                 driverSearch.addActionListener(new ActionListener() {

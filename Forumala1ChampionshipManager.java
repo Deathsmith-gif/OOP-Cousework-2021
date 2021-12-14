@@ -620,4 +620,36 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
         Collections.sort(RandomDriverList, Race.dates);
     }
 
+    public void randomRace() {
+        Boolean valid = false;
+        ArrayList<Integer> sortList = new ArrayList<Integer>();
+        double probabilty = 0;
+
+
+        for (int i = 1; i <= 10; i++) {
+            sortList.add((i));
+        }
+        Collections.shuffle(sortList);
+        for (int i = 1; i < 11; i++) {
+            sortList.add((i));
+        }
+        Random randomPos = new Random();
+        for (int j=0; j<raceDriver.size(); j++){
+            int randPos=sortList.get(j);
+            int probPos = 1 + randomPos.nextInt(100);
+            switch (randPos) {
+                case 1:
+                if (probPos>40 && probPos<100){
+                    
+
+                } 
+                
+            }
+                
+            
+
+        }
+        
+    }
+
 }

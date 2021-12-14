@@ -17,47 +17,58 @@ public class Gui extends JFrame {
                 String[] columnNames2 = { "Date", "Driver Name", "Position" };
                 String[] columnNames3 = { "Driver Name", "Date", "Position" };
                 String[] columnNames4 = { "Driver Name", "Date", "Position" };
-                Object[][] G = fcm.StringRace();
-
-                Object[][] values = new Object[Forumala1ChampionshipManager.raceDriver.size()][7];
+                String[] columnNames5 = { "Driver Name", "Date", "Position" };
                 fcm.sortForTable();
-                GridLayout Layout = new GridLayout(9, 10);
-
+                GridLayout Layout = new GridLayout(10,20);
                 /** 
-                 * 4 table models for 4 tables, tableModel1 for the defualt 
+                 * 4 table models for 4 tables, tableModel1 for the defualt  data from dricers
+                 * tablemodel2 for Ranodm Positions
+                 * tablemodel3 for sort the table with dates
+                 * tablemodel4 for the probabilty races
                 */
 
                 DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
                 DefaultTableModel tableModel2 = new DefaultTableModel(columnNames2, 0);
                 DefaultTableModel tableModel3 = new DefaultTableModel(columnNames3, 0);
                 DefaultTableModel tableModel4 = new DefaultTableModel(columnNames4, 0);
+                DefaultTableModel tableModel5 = new DefaultTableModel(columnNames5, 0);
+
 
                 JTable table = new JTable(tableModel);
                 JTable table2 = new JTable(tableModel2);
                 JTable table3 = new JTable(tableModel3);
                 JTable table4 = new JTable(tableModel4);
+                JTable table5 = new JTable(tableModel5);
 
                 for (Formula1Driver i : Forumala1ChampionshipManager.raceDriver) {
                         Object[] driver = { i.getname(), i.getteam(), i.getfpos(), i.getspos(), i.gettpos(),
                                         i.getpoints(), i.getnRaces(), };
                         tableModel.addRow(driver);
                 }
+                JLabel tablename1 = new JLabel("The data");
+                JLabel tablename2 = new JLabel("The Random Postions");
+                JLabel tablename3 = new JLabel("Sorting with dates");
+                JLabel tablename4 = new JLabel("Search Results");
+                JLabel tablename5=new JLabel("Probailty RAce");
 
+                add(tablename1);
                 add(new JScrollPane(table));
+                add(tablename2);
                 add(new JScrollPane(table2));
-                add(new JScrollPane(table3));
+                add(tablename3);
+                add(new JScrollPane(table5));
+                add(tablename4);
                 add(new JScrollPane(table4));
+                add(tablename5);
+                add(new JScrollPane(table3));
+                
 
                 setLayout(Layout);
-
+                // four buttons for the functionaltiy 
                 JButton randButton = new JButton("Generate random Positions");
                 JButton raceButton = new JButton("Generate a random race");
                 JButton dateButton = new JButton("Sort races with date");
                 JButton driverSearch = new JButton("Search for a driver");
-                randButton.setBounds(0, 100, 95, 30);
-                raceButton.setBounds(0, 110, 95, 30);
-                dateButton.setBounds(0, 120, 95, 30);
-                driverSearch.setBounds(0, 130, 95, 30);
                 Dimension size = new Dimension(100, 50);
                 randButton.setMaximumSize(size);
                 JTextField Search = new JTextField();
@@ -68,18 +79,29 @@ public class Gui extends JFrame {
                 add(Search);
                 add(driverSearch);
 
+                /** 
+                 * This fucntion is to add the sorting funtions into the Points and the numbe of first pos
+                */
+
                 TableRowSorter<TableModel> s = new TableRowSorter<TableModel>(table.getModel());
                 table.setRowSorter(s);
                 java.util.List<RowSorter.SortKey> sortList = new ArrayList<>(5);
+                sortList.add(new RowSorter.SortKey(2, SortOrder.DESCENDING));
                 sortList.add(new RowSorter.SortKey(5, SortOrder.ASCENDING));
                 s.setSortKeys(sortList);
 
+
+                /**  
+                 * Use to generate a random Race on the click of the buton randButton
+                */
                 randButton.addActionListener(new ActionListener() {
 
                         @Override
                         public void actionPerformed(ActionEvent e) {
 
+                                //fcm.randomos taken from the FormulaChapionship manager
                                 fcm.randomrPos();
+                                //Emptying the table
                                 tableModel.setRowCount(0);
                                 // updating table
                                 for (Formula1Driver i : Forumala1ChampionshipManager.raceDriver) {
@@ -87,6 +109,7 @@ public class Gui extends JFrame {
                                                         i.gettpos(), i.getpoints(), i.getnRaces(), };
                                         tableModel.addRow(driver);
                                 }
+                                //Used to ignore the pre-existing data where the syntax is -1
                                 for (Race j : Forumala1ChampionshipManager.RandomDriverList) {
                                         if (j.getPosition() == -1) {
                                                 continue;
@@ -98,14 +121,22 @@ public class Gui extends JFrame {
                         }
 
                 });
+                //Function to work with the random probabilty race
                 raceButton.addActionListener(new ActionListener() {
 
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                System.out.println("Working");
-
+                               fcm.randomRace();
+                               for (Race j : Forumala1ChampionshipManager.RandomDriverList) {
+                                if (j.getPosition() == -1) {
+                                        continue;
+                                }
+                                Object[] driver = { j.getDate(), j.getDriverName(), j.getPosition() };
+                                tableModel2.addRow(driver);
+                        }
                         }
                 });
+                //funtions to sort with the date
                 dateButton.addActionListener(new ActionListener() {
 
                         @Override
@@ -115,11 +146,12 @@ public class Gui extends JFrame {
                                         if ((j.getPosition() != -1)) {
                                                 Object[] driver = { j.getDriverName(), j.getDate(),
                                                                 j.getPosition() };
-                                                tableModel3.addRow(driver);
+                                                tableModel5.addRow(driver);
                                         }
                                 }
                         }
                 });
+                //funciton to search with the search
                 driverSearch.addActionListener(new ActionListener() {
 
                         @Override
@@ -128,11 +160,9 @@ public class Gui extends JFrame {
                                 for (Formula1Driver i : Forumala1ChampionshipManager.raceDriver) {
                                         if (t.equalsIgnoreCase(i.getname())) {
                                                 for (Race j : Forumala1ChampionshipManager.RandomDriverList) {
-                                                        if (t.equalsIgnoreCase(j.getDriverName())
-                                                                        && (j.getPosition() != -1)) {
-                                                                Object[] driver = { j.getDriverName(), j.getDate(),
-                                                                                j.getPosition() };
-                                                                tableModel3.addRow(driver);
+                                                        if (t.equalsIgnoreCase(j.getDriverName()) && (j.getPosition() != -1)) {
+                                                                Object[] driver = { j.getDriverName(), j.getDate(),j.getPosition() };
+                                                                tableModel4.addRow(driver);
                                                         }
                                                 }
 

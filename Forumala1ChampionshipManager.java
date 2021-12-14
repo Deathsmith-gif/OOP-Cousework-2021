@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.StringJoiner;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -12,14 +11,21 @@ import java.time.LocalDate;
 
 public class Forumala1ChampionshipManager implements ChampionShipManager {
     private Scanner input = new Scanner(System.in);
+    // raceDriver an array for FormulaDriver Object
     static ArrayList<Formula1Driver> raceDriver = new ArrayList<Formula1Driver>();
-
+    // RandomDriverList is an array list for Race Object
     static ArrayList<Race> RandomDriverList = new ArrayList<Race>();
+    // arrayTeam is a hashset to hold the team names to compare for uniqueness
     private HashSet<String> ArrayTeam = new HashSet<String>();
     private int points = 0;
+    // details is an instance of Race
     private Race details = new Race();
+    // Race data is a FIle to store the data
     File RaceData = new File("Race Data.txt");
 
+    // This fucntion will create new objects of Forumula1Driver and input it into
+    // the object and the arrayList
+    // valid to valid3 used in validating the integer
     public void CreateDriver() {
         int fpos = 0;
         int spos = 0;
@@ -34,6 +40,7 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
         String name = input.nextLine();
         System.out.println("Please enter the team name");
         teamName = input.nextLine().toLowerCase();
+        // check if the arraylist is empthy before adding so it can omit the comparison
         if (ArrayTeam.isEmpty()) {
             ArrayTeam.add(teamName);
         } else {
@@ -101,12 +108,16 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
                 System.out.println("Please enter an Integer");
             }
         }
+        // The data from the user is taken into variables and then inserting directly
+        // into the Formula1Driver under RaceGuy instance
         Formula1Driver raceguy = new Formula1Driver(name, location, teamName, fpos, spos, tpos, points,
                 nRaces);
+        // object is addes into the arrayList
         raceDriver.add(raceguy);
 
     }
 
+    // This fucntion removes the whole object out of the Formula1driver
     public void DeleteDriver() {
         String temp = " ";
         int temp2 = 0;
@@ -130,6 +141,7 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
 
     }
 
+    // this Funtion changes the Driver's Team to somthing else
     public void ChangeDriver() {
         String temp = " ";
         String temp2 = " ";
@@ -146,18 +158,20 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
         cNumber = Integer.parseInt(input.nextLine());
         System.out.println("Please enter the number of the team you want to put the Driver into");
         nNumber = Integer.parseInt(input.nextLine());
-
+        // the index of the driver is taken
         for (int j = 0; j < raceDriver.size(); j++) {
             if (j == nNumber) {
                 temp3 = raceDriver.get(j).getteam();
             }
         }
+        // and swapped with the setter
         for (int k = 0; k < raceDriver.size(); k++) {
             if (k == cNumber) {
                 raceDriver.get(k).setteam(temp3);
             }
 
         }
+        // The teams are then printed
         System.out.println("Team changed Sucuessfully");
         for (int i = 0; i < raceDriver.size(); i++) {
             temp = raceDriver.get(i).getname();
@@ -166,6 +180,7 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
         }
     }
 
+    // This shows all the data obtained by the driver
     public void ShowStats() {
         String temp = " ";
         int dNumber = 0;
@@ -182,6 +197,7 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
             }
             while (valid == false) {
                 try {
+                    // gets an index from the user to display
                     System.out.println("Which drivers Stats you want to see?");
                     dNumber = Integer.parseInt(input.nextLine());
                     valid = true;
@@ -192,6 +208,7 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
 
             for (int j = 0; j < raceDriver.size(); j++) {
                 if (j == dNumber) {
+                    // All the data is outputted by that index
                     System.out.println("Driver Name : " + raceDriver.get(j).getname());
                     System.out.println("Driver is from : " + raceDriver.get(j).getlocation());
                     System.out.println("The Drivers Team : " + raceDriver.get(j).getteam());
@@ -208,13 +225,16 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
     }
 
     public void ShowTable() {
+        // The points are sorted by the comparator defiend in Formula1Driver
         Collections.sort(raceDriver, Formula1Driver.Points);
+        // the structure for the table
         System.out.println(
                 "--------------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.printf("%20s %20s %23s %15s %15s %15s %15s %15s", "|    Driver name     | ", "| Location  |",
                 "|       Team   |",
                 "| No. First  |", "| No. Second |", "| No. Third |", "| Total Points |", "| Total races |");
         System.out.println();
+        // Printing the sorted data in a specific format defiend in Formula1Driver
         for (int j = 0; j < raceDriver.size(); j++) {
             System.out.println(raceDriver.get(j));
         }
@@ -222,6 +242,7 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
                 "--------------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
+    // This fucntion sorts the Points
     @Override
     public void sort() {
 
@@ -231,63 +252,18 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
         }
     }
 
+    // Used to sort the dates in the Race class for the GUI
     public void sortForTable() {
         Collections.sort(raceDriver, Formula1Driver.Points);
     }
 
+    // Add a race to the data
     public void AddRace() {
-        int day = 0;
-        int month = 0;
-        int year = 0;
-        Boolean valid = false;
-        Boolean valid1 = false;
-        Boolean valid2 = false;
         Boolean valid3 = false;
         int userInput = 0;
-        // Formula1Driver updateDriver = new Formula1Driver();
-        System.out.println("When was the date this race was held on");
-        while (valid == false) {
-            try {
-                day = Integer.parseInt(input.nextLine());
 
-                if (day > 31 || day < 1) {
-                    System.out.println("Please enter a valid date between 1 and 31");
-                } else {
-                    valid = true;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Please enter an integer");
-            }
-        }
-        System.out.println("When was the month this race was held on");
-
-        while (valid2 == false) {
-            try {
-                month = Integer.parseInt(input.nextLine());
-                if (month > 12 || month < 1) {
-                    System.out.println("Please enter a valid month between 1 and 12");
-                } else {
-                    valid2 = true;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Please enter an integer");
-            }
-        }
-        System.out.println("When was the year this race was held on");
-        while (valid1 == false) {
-            try {
-                year = Integer.parseInt(input.nextLine());
-                if (year < 1600) {
-                    System.out.println("Please enter a valid year between 1600 to present");
-                    year = Integer.parseInt(input.nextLine());
-                } else {
-                    valid1 = true;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Please enter an integer");
-            }
-        }
-        String date = year + "/" + month + "/" + day;
+        // A random Date is generated by a predefined fucntion (Line 587)
+        String date = randomDate();
         System.out.println(date);
         System.out.println("These are the current data in the System ");
         for (int i = 0; i < raceDriver.size(); i++) {
@@ -304,6 +280,8 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
                 if (userInput == -1) {
                     valid3 = true;
                 } else {
+                    // Variables a to m are dummy varaibales to hold the data from the getters and
+                    // incremnt the points
                     int position = 0;
                     for (Formula1Driver updateDriver : raceDriver) {
                         if (raceDriver.get(userInput).equals(updateDriver)) {
@@ -371,11 +349,13 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
                                     break;
                             }
                         }
+                        // Race class is updated after the Case
                         details.setPosition(position);
                         details.setDriverName(raceDriver.get(userInput).getname());
                     }
                 }
 
+                // since date is common to all the races it will be updated directly
                 details.setdate(date);
                 System.out.println("Please enter the next driver index");
 
@@ -388,6 +368,8 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
     public void Store() throws IOException {
         FileWriter writeFunc = new FileWriter("Race Data.txt");
         String temp = " ";
+        // The data is stored with SPECIFIC SYMBOLS like !, @, so the data can be
+        // accessed in the Load and printed to a File
         for (int i = 0; i < raceDriver.size(); i++) {
             temp = ((raceDriver.get(i).getname()) + "!" + (raceDriver.get(i).getlocation()) + "@"
                     + (raceDriver.get(i).getteam()) + "#" +
@@ -417,6 +399,8 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
         int lineLength = 0;
         String date = " ";
         int pos = -1;
+        // While the file has a next readable file it will loop though the file and
+        // assign the specific Data into the variables
         while (readFile.hasNextLine()) {
             temp = readFile.nextLine();
             lineLength = temp.length();
@@ -456,9 +440,12 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
             linepos2 = 0;
             linepos2 = temp.indexOf("*");
             racerNRaace = Integer.parseInt(temp.substring(linepos1, linepos2));
+            // The varaibales are used to then add the object into a object
             Formula1Driver raceguy = new Formula1Driver(racerName, racerLocation, racerTeam, racerFpos, racerSpos,
                     racerTpos, racerPoints, racerNRaace);
-            ArrayTeam.add(racerTeam);        
+            // Array list also updated
+            ArrayTeam.add(racerTeam);
+            // Updating the class Race
             Race upRace = new Race(date, racerName, pos);
             raceDriver.add(raceguy);
             RandomDriverList.add(upRace);
@@ -478,17 +465,14 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
         ArrayList<Integer> arrayList = new ArrayList<Integer>();
         String randomDriverName = " ";
         int randomDriverPos = 0;
-        // ArrayList<Integer> randomDriver = new ArrayList<Integer>();
-
+        // Array list given values from 1 to 10
         for (int i = 1; i <= 10; i++) {
             arrayList.add((i));
         }
-        Collections.shuffle(arrayList);
-        for (int i = 1; i < raceDriver.size(); i++) {
-            arrayList.add((i));
-        }
+        // Shuffled so the values are random
         Collections.shuffle(arrayList);
 
+        // for the size they are given radom values
         for (int i = 0; i < raceDriver.size(); i++) {
             int temp = arrayList.get(i);
             switch (temp) {
@@ -582,6 +566,7 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
                     raceDriver.get(i).setnRaces((raceDriver.get(i).getnRaces()) + 1);
                     break;
             }
+            // Race class updated
             Race upRace = new Race();
             upRace = new Race(randomDate(), randomDriverName, randomDriverPos);
             RandomDriverList.add(upRace);
@@ -589,6 +574,7 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
 
     }
 
+    // Fucntion used to return the values the drivers for the GUI
     public Object[][] StringRace() {
 
         Object[][] values2 = new Object[Forumala1ChampionshipManager.raceDriver.size()][3];
@@ -600,58 +586,138 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
         return (values2);
     }
 
-    private int createRandomIntBetween(int start, int end) {
+    // Line 583 to 599 used to generate the random dates
+    private int dateRange(int start, int end) {
         return start + (int) Math.round(Math.random() * (end - start));
     }
 
-    private LocalDate createRandomDate(int startYear, int endYear) {
-        int day = createRandomIntBetween(1, 28);
-        int month = createRandomIntBetween(1, 12);
-        int year = createRandomIntBetween(startYear, endYear);
+    private LocalDate MakeRandomDate(int startYear, int endYear) {
+        int day = dateRange(1, 28);
+        int month = dateRange(1, 12);
+        int year = dateRange(startYear, endYear);
         return LocalDate.of(year, month, day);
     }
 
+    // To call the date in String Form
     public String randomDate() {
-        LocalDate randomDate = createRandomDate(2000, 2020);
+        LocalDate randomDate = MakeRandomDate(2000, 2020);
         String date = randomDate.toString();
         return date;
 
     }
 
+    // Sorting the dates in decending Order
     public void sortDate() {
         Collections.sort(RandomDriverList, Race.dates);
     }
 
     public void randomRace() {
-        Boolean valid = false;
-        ArrayList<Integer> sortList = new ArrayList<Integer>();
-        double probabilty = 0;
-
-
-        for (int i = 1; i <= 10; i++) {
-            sortList.add((i));
+        //Arrays to use in the fucntion
+        ArrayList<String> driverList = new ArrayList<String>();
+        ArrayList<String> shuffle = new ArrayList<String>();
+        ArrayList<Integer> newPos = new ArrayList<Integer>();
+        //Filling arraylist Driverlist with the names
+        for (int i = 0; i <= raceDriver.size(); i++) {
+            driverList.add(raceDriver.get(i).getname());
         }
-        Collections.shuffle(sortList);
-        for (int i = 1; i < 11; i++) {
-            sortList.add((i));
+        //Shuffling the drivers
+        Collections.shuffle(driverList);
+        //adding the Same driver 40 times due to the probabilty
+        for (int j = 0; j < 40; j++) {
+            shuffle.add(driverList.get(0));
         }
-        Random randomPos = new Random();
-        for (int j=0; j<raceDriver.size(); j++){
-            int randPos=sortList.get(j);
-            int probPos = 1 + randomPos.nextInt(100);
-            switch (randPos) {
-                case 1:
-                if (probPos>40 && probPos<100){
-                    
-
-                } 
-                
+        for (int j = 0; j < 30; j++) {
+            shuffle.add(driverList.get(1));
+        }
+        for (int j = 0; j < 10; j++) {
+            shuffle.add(driverList.get(2));
+            shuffle.add(driverList.get(3));
+        }
+        for (int j = 0; j < 2; j++) {
+            shuffle.add(driverList.get(4));
+            shuffle.add(driverList.get(5));
+            shuffle.add(driverList.get(6));
+            shuffle.add(driverList.get(7));
+            shuffle.add(driverList.get(8));
+        }
+        Collections.shuffle(shuffle);
+        String winner = shuffle.get(0);
+        int winnerIndex = 0;
+        for (int i = 0; i <= raceDriver.size(); i++) {
+            if (winner.equals(raceDriver.get(i).getname())) {
+                winnerIndex = i;
+                int a = raceDriver.get(i).getpoints();
+                a = a + 25;
+                raceDriver.get(i).setpoints(a);
+                int b = raceDriver.get(i).getfpos();
+                b = b + 1;
+                raceDriver.get(i).setfPos(b);
+                raceDriver.get(i).setnRaces((raceDriver.get(i).getnRaces()) + 1);
             }
-                
-            
+        }
+        for (int i = 2; i <= raceDriver.size(); i++) {
+            newPos.add(i);
+        }
+        Collections.shuffle(newPos);
+        int newLength = raceDriver.size();
+        for (int k = 0; k < newLength-1; k++) {
+            if (k != winnerIndex && newPos.get(k).equals(2)) {
+                int c = raceDriver.get(k).getpoints();
+                c = c + 18;
+                raceDriver.get(k).setpoints(c);
+                int d = raceDriver.get(k).getspos();
+                d = d + 1;
+                raceDriver.get(k).setsPos(d);
+                raceDriver.get(k).setnRaces((raceDriver.get(k).getnRaces()) + 1);
+            } else if (k != winnerIndex && newPos.get(k).equals(3)) {
+                int e = (raceDriver.get(k).getpoints());
+                e = e + 15;
+                raceDriver.get(k).setpoints(e);
+                int f = raceDriver.get(k).gettpos();
+                f = f + 1;
+                raceDriver.get(k).setTpos(f);
+                raceDriver.get(k).setnRaces((raceDriver.get(k).getnRaces()) + 1);
+                break;
+            } else if (k != winnerIndex && newPos.get(k).equals(4)) {
+                int g = (raceDriver.get(k).getpoints());
+                g = g + 12;
+                raceDriver.get(k).setpoints(g);
+                raceDriver.get(k).setnRaces((raceDriver.get(k).getnRaces()) + 1);
+            } else if (k != winnerIndex && newPos.get(k).equals(5)) {
+                int h = (raceDriver.get(k).getpoints());
+                h = h + 10;
+                raceDriver.get(k).setpoints(h);
+                raceDriver.get(k).setnRaces((raceDriver.get(k).getnRaces()) + 1);
+            } else if (k != winnerIndex && newPos.get(k).equals(6)) {
+                int l = (raceDriver.get(k).getpoints());
+                l = l + 8;
+                raceDriver.get(k).setpoints(l);
+                raceDriver.get(k).setnRaces((raceDriver.get(k).getnRaces()) + 1);
+            } else if (k != winnerIndex && newPos.get(k).equals(7)) {
+                int l = (raceDriver.get(k).getpoints());
+                l = l + 6;
+                raceDriver.get(k).setpoints(l);
+                raceDriver.get(k).setnRaces((raceDriver.get(k).getnRaces()) + 1);
+            } else if (k != winnerIndex && newPos.get(k).equals(8)) {
+                int l = (raceDriver.get(k).getpoints());
+                l = l + 4;
+                raceDriver.get(k).setpoints(l);
+                raceDriver.get(k).setnRaces((raceDriver.get(k).getnRaces()) + 1);
+            } else if (k != winnerIndex && newPos.get(k).equals(9)) {
+                int l = (raceDriver.get(k).getpoints());
+                l = l + 2;
+                raceDriver.get(k).setpoints(l);
+                raceDriver.get(k).setnRaces((raceDriver.get(k).getnRaces()) + 1);
+            } else if (k != winnerIndex && newPos.get(k).equals(10)) {
+                int l = (raceDriver.get(k).getpoints());
+                l = l + 1;
+                raceDriver.get(k).setpoints(l);
+                raceDriver.get(k).setnRaces((raceDriver.get(k).getnRaces()) + 1);
+            }
+
 
         }
-        
+
     }
 
 }

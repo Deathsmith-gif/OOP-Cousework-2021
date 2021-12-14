@@ -40,9 +40,7 @@ public class Main {
                     case 5:
                         fcm.ShowTable();
                         break;
-                    case 6:
-                        fcm.AddRace();
-                        break;
+                    
                     case 7:
                         fcm.Store();
                         break;

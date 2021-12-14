@@ -1,14 +1,15 @@
 import java.io.IOException;
 import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) throws IOException {
         Forumala1ChampionshipManager fcm = new Forumala1ChampionshipManager();
         Scanner input = new Scanner(System.in);
-        int uInput=0;
+        int uInput = 0;
         System.out.println("***********************************************************");
-       System.out.println("Welcome to the F1 racing Program :) ");
-        while (uInput != -1){
-            try{
+        System.out.println("Welcome to the F1 racing Program :) ");
+        while (uInput != -1) {
+            try {
                 System.out.println("01) Create a new Driver");
                 System.out.println("02) Delete a Driver");
                 System.out.println("03) Change a Driver's Team");
@@ -20,49 +21,54 @@ public class Main {
                 System.out.println("09) Generate the GUI");
                 System.out.println("-1) To exit the program");
                 System.out.println("***********************************************************");
-                uInput =Integer.parseInt(input.nextLine());
-                switch(uInput){
+                uInput = Integer.parseInt(input.nextLine());
+                switch (uInput) {
                     case 1:
-                    fcm.CreateDriver();
-                    break;
+                        fcm.CreateDriver();
+                        break;
                     case 2:
-                    fcm.DeleteDriver();
-                    break;
+                        fcm.DeleteDriver();
+                        break;
                     case 3:
-                    fcm.ChangeDriver();
+                        fcm.ChangeDriver();
                     case 4:
-                    fcm.ShowStats();
-                    break;
+                        fcm.ShowStats();
+                        break;
                     case 5:
-                    fcm.ShowTable();
-                    break;
+                        fcm.ShowTable();
+                        break;
                     case 6:
-                    fcm.AddRace();
-                    break;
+                        fcm.AddRace();
+                        break;
                     case 7:
-                    fcm.Store();
-                    break;
+                        fcm.Store();
+                        break;
                     case 8:
-                    fcm.LoadFile();
-                    break;
-                    case 9 :
-                    Gui.main(args);
-                    break;
+                        fcm.LoadFile();
+                        break;
+                    case 9:
+                        Gui guiTable = new Gui(fcm);
+                        guiTable.setSize(1280, 720);
+                        guiTable.setVisible(true);
+                        break;
+                    case -1:
+                        System.out.println("Thank you for using this service");
+                        System.out.println("Have a nice day");
+                        System.exit(0);
+                            
                     default:
-                    System.out.println("Please Enter a number in the menu");
+                        System.out.println("Please Enter a number in the menu");
 
                 }
                 System.out.println("***********************************************************");
                 System.out.println("What would you like to do next?");
             } catch (NumberFormatException e) {
-               System.out.println("Please enter an integer >:-| ");
-               System.out.println("***********************************************************");
+                System.out.println("Please enter an integer >:-| ");
+                System.out.println("***********************************************************");
             }
-            //when outputting the -1
+            // when outputting the -1
 
         }
-        System.out.println("Thank you for using this service");
-        System.out.println("Have a nice day");
-        
+
     }
 }

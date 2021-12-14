@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Race {
   // make racedate , list of driver , driver pos
@@ -35,5 +36,13 @@ public class Race {
   public int getPosition() {
     return rPosition;
   }
+  public static Comparator<Race> dates = new Comparator<Race>() {
+    @Override
+    public int compare(Race d1, Race d2) {
+        String date1 = d1.getDate();
+        String date2 = d2.getDate();
+        return date2.compareTo(date1);
+    }
+};
 
 }

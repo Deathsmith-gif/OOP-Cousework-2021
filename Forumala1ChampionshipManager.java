@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.StringJoiner;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 public class Forumala1ChampionshipManager implements ChampionShipManager {
     private Scanner input = new Scanner(System.in);
     static ArrayList<Formula1Driver> raceDriver = new ArrayList<Formula1Driver>();
-    private Race upRace = new Race();
+
     static ArrayList<Race> RandomDriverList = new ArrayList<Race>();
     private HashSet<String> ArrayTeam = new HashSet<String>();
     private int points = 0;
@@ -229,6 +230,10 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
         }
     }
 
+    public void sortForTable() {
+        Collections.sort(raceDriver, Formula1Driver.Points);
+    }
+
     public void AddRace() {
         int day = 0;
         int month = 0;
@@ -281,7 +286,7 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
                 System.out.println("Please enter an integer");
             }
         }
-        String date = day + "/" + month + "/" + year;
+        String date = year + "/" + month + "/" + day;
         System.out.println(date);
         System.out.println("These are the current data in the System ");
         for (int i = 0; i < raceDriver.size(); i++) {
@@ -293,87 +298,89 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
                 "Which driver do you want to update?(Enter the number in front of the driver OR enter -1 if you want to stop updating)");
         // details.setDriverName(raceDriver.get(position).getname());
         while (valid3 == false) {
-            // try {
-            userInput = Integer.parseInt(input.nextLine());
-            if (userInput == -1) {
-                valid3 = true;
-            } else {
-                int position = 0;
-                for (Formula1Driver updateDriver : raceDriver) {
-                    if (raceDriver.get(userInput).equals(updateDriver)) {
-                        System.out.println("Please enter his position in the race");
-                        position = input.nextInt();
-                        switch (position) {
-                            case 1:
-                                int a = raceDriver.get(userInput).getpoints();
-                                a = a + 25;
-                                raceDriver.get(userInput).setpoints(a);
-                                int b = raceDriver.get(userInput).getfpos();
-                                b = b + 1;
-                                raceDriver.get(userInput).setfPos(b);
-                                break;
-                            case 2:
-                                int c = raceDriver.get(userInput).getpoints();
-                                c = c + 18;
-                                raceDriver.get(userInput).setpoints(c);
-                                int d = raceDriver.get(userInput).getfpos();
-                                d = d + 1;
-                                raceDriver.get(userInput).setsPos(d);
-                                break;
-                            case 3:
-                                int e = (raceDriver.get(userInput).getpoints());
-                                e = e + 18;
-                                raceDriver.get(userInput).setpoints(e);
-                                int f = raceDriver.get(userInput).gettpos();
-                                f = f + 1;
-                                raceDriver.get(userInput).setTpos(f);
-                                break;
-                            case 4:
-                                int g = (raceDriver.get(userInput).getpoints());
-                                g = g + 12;
-                                raceDriver.get(userInput).setpoints(g);
-                                break;
-                            case 5:
-                                int h = (raceDriver.get(userInput).getpoints());
-                                h = h + 10;
-                                raceDriver.get(userInput).setpoints(h);
-                                break;
-                            case 6:
-                                int i = (raceDriver.get(userInput).getpoints());
-                                i = i + 8;
-                                raceDriver.get(userInput).setpoints(i);
-                                break;
-                            case 7:
-                                int j = (raceDriver.get(userInput).getpoints());
-                                j = j + 18;
-                                raceDriver.get(userInput).setpoints(j);
-                                break;
-                            case 8:
-                                int k = (raceDriver.get(userInput).getpoints());
-                                k = k + 8;
-                                raceDriver.get(userInput).setpoints(k);
-                                break;
-                            case 9:
-                                int l = (raceDriver.get(userInput).getpoints());
-                                l = l + 18;
-                                raceDriver.get(userInput).setpoints(l);
-                                break;
-                            case 10:
-                                int m = (raceDriver.get(userInput).getpoints());
-                                m = m + 18;
-                                raceDriver.get(userInput).setpoints(m);
-                                break;
+            try {
+                userInput = Integer.parseInt(input.nextLine());
+                if (userInput == -1) {
+                    valid3 = true;
+                } else {
+                    int position = 0;
+                    for (Formula1Driver updateDriver : raceDriver) {
+                        if (raceDriver.get(userInput).equals(updateDriver)) {
+                            System.out.println("Please enter his position in the race");
+                            position = Integer.parseInt(input.nextLine());
+                            switch (position) {
+                                case 1:
+                                    int a = raceDriver.get(userInput).getpoints();
+                                    a = a + 25;
+                                    raceDriver.get(userInput).setpoints(a);
+                                    int b = raceDriver.get(userInput).getfpos();
+                                    b = b + 1;
+                                    raceDriver.get(userInput).setfPos(b);
+                                    break;
+                                case 2:
+                                    int c = raceDriver.get(userInput).getpoints();
+                                    c = c + 18;
+                                    raceDriver.get(userInput).setpoints(c);
+                                    int d = raceDriver.get(userInput).getfpos();
+                                    d = d + 1;
+                                    raceDriver.get(userInput).setsPos(d);
+                                    break;
+                                case 3:
+                                    int e = (raceDriver.get(userInput).getpoints());
+                                    e = e + 18;
+                                    raceDriver.get(userInput).setpoints(e);
+                                    int f = raceDriver.get(userInput).gettpos();
+                                    f = f + 1;
+                                    raceDriver.get(userInput).setTpos(f);
+                                    break;
+                                case 4:
+                                    int g = (raceDriver.get(userInput).getpoints());
+                                    g = g + 12;
+                                    raceDriver.get(userInput).setpoints(g);
+                                    break;
+                                case 5:
+                                    int h = (raceDriver.get(userInput).getpoints());
+                                    h = h + 10;
+                                    raceDriver.get(userInput).setpoints(h);
+                                    break;
+                                case 6:
+                                    int i = (raceDriver.get(userInput).getpoints());
+                                    i = i + 8;
+                                    raceDriver.get(userInput).setpoints(i);
+                                    break;
+                                case 7:
+                                    int j = (raceDriver.get(userInput).getpoints());
+                                    j = j + 18;
+                                    raceDriver.get(userInput).setpoints(j);
+                                    break;
+                                case 8:
+                                    int k = (raceDriver.get(userInput).getpoints());
+                                    k = k + 8;
+                                    raceDriver.get(userInput).setpoints(k);
+                                    break;
+                                case 9:
+                                    int l = (raceDriver.get(userInput).getpoints());
+                                    l = l + 18;
+                                    raceDriver.get(userInput).setpoints(l);
+                                    break;
+                                case 10:
+                                    int m = (raceDriver.get(userInput).getpoints());
+                                    m = m + 18;
+                                    raceDriver.get(userInput).setpoints(m);
+                                    break;
+                            }
                         }
+                        details.setPosition(position);
+                        details.setDriverName(raceDriver.get(userInput).getname());
                     }
-                    details.setPosition(position);
-                    details.setDriverName(raceDriver.get(userInput).getname());
                 }
-            }
-            details.setdate(date);
 
-            // } catch (NumberFormatException e) {
-            // System.out.println("Please enter an integer");
-            // }
+                details.setdate(date);
+                System.out.println("Please enter the next driver index");
+
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter an integer");
+            }
         }
     }
 
@@ -407,6 +414,8 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
         int linepos1 = 0;
         int linepos2 = 0;
         int lineLength = 0;
+        String date = " ";
+        int pos = -1;
         while (readFile.hasNextLine()) {
             temp = readFile.nextLine();
             lineLength = temp.length();
@@ -448,7 +457,10 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
             racerNRaace = Integer.parseInt(temp.substring(linepos1, linepos2));
             Formula1Driver raceguy = new Formula1Driver(racerName, racerLocation, racerTeam, racerFpos, racerSpos,
                     racerTpos, racerPoints, racerNRaace);
+            Race upRace = new Race(date, racerName, pos);
             raceDriver.add(raceguy);
+            RandomDriverList.add(upRace);
+
         }
         readFile.close();
         System.out.println("Files Sucessfully loaded");
@@ -460,10 +472,10 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
 
     }
 
-    public void randomrRace() {
+    public void randomrPos() {
         ArrayList<Integer> arrayList = new ArrayList<Integer>();
-        String randomDriverName=" ";
-        int randomDriverPos=0;
+        String randomDriverName = " ";
+        int randomDriverPos = 0;
         // ArrayList<Integer> randomDriver = new ArrayList<Integer>();
 
         for (int i = 1; i <= 10; i++) {
@@ -481,8 +493,8 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
                 case 1:
                     int a = raceDriver.get(i).getpoints();
                     a = a + 25;
-                    randomDriverName=raceDriver.get(i).getname();
-                    randomDriverPos=1;
+                    randomDriverName = raceDriver.get(i).getname();
+                    randomDriverPos = 1;
                     raceDriver.get(i).setpoints(a);
                     int b = raceDriver.get(i).getfpos();
                     b = b + 1;
@@ -492,8 +504,8 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
                 case 2:
                     int c = raceDriver.get(i).getpoints();
                     c = c + 18;
-                    randomDriverName=raceDriver.get(i).getname();
-                    randomDriverPos=2;
+                    randomDriverName = raceDriver.get(i).getname();
+                    randomDriverPos = 2;
                     raceDriver.get(i).setpoints(c);
                     int d = raceDriver.get(i).getspos();
                     d = d + 1;
@@ -503,8 +515,8 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
                 case 3:
                     int e = (raceDriver.get(i).getpoints());
                     e = e + 18;
-                    randomDriverName=raceDriver.get(i).getname();
-                    randomDriverPos=3;
+                    randomDriverName = raceDriver.get(i).getname();
+                    randomDriverPos = 3;
                     raceDriver.get(i).setpoints(e);
                     int f = raceDriver.get(i).gettpos();
                     f = f + 1;
@@ -514,61 +526,62 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
                 case 4:
                     int g = (raceDriver.get(i).getpoints());
                     g = g + 12;
-                    randomDriverName=raceDriver.get(i).getname();
-                    randomDriverPos=4;
+                    randomDriverName = raceDriver.get(i).getname();
+                    randomDriverPos = 4;
                     raceDriver.get(i).setpoints(g);
                     raceDriver.get(i).setnRaces((raceDriver.get(i).getnRaces()) + 1);
                     break;
                 case 5:
                     int h = (raceDriver.get(i).getpoints());
                     h = h + 10;
-                    randomDriverName=raceDriver.get(i).getname();
-                    randomDriverPos=5;
+                    randomDriverName = raceDriver.get(i).getname();
+                    randomDriverPos = 5;
                     raceDriver.get(i).setpoints(h);
                     raceDriver.get(i).setnRaces((raceDriver.get(i).getnRaces()) + 1);
                     break;
                 case 6:
                     int l = (raceDriver.get(i).getpoints());
                     l = l + 8;
-                    randomDriverName=raceDriver.get(i).getname();
-                    randomDriverPos=6;
+                    randomDriverName = raceDriver.get(i).getname();
+                    randomDriverPos = 6;
                     raceDriver.get(i).setpoints(l);
                     raceDriver.get(i).setnRaces((raceDriver.get(i).getnRaces()) + 1);
                     break;
                 case 7:
                     int j = (raceDriver.get(i).getpoints());
                     j = j + 18;
-                    randomDriverName=raceDriver.get(i).getname();
-                    randomDriverPos=7;
+                    randomDriverName = raceDriver.get(i).getname();
+                    randomDriverPos = 7;
                     raceDriver.get(i).setpoints(j);
                     raceDriver.get(i).setnRaces((raceDriver.get(i).getnRaces()) + 1);
                     break;
                 case 8:
                     int k = (raceDriver.get(i).getpoints());
                     k = k + 8;
-                    randomDriverName=raceDriver.get(i).getname();
-                    randomDriverPos=8;
+                    randomDriverName = raceDriver.get(i).getname();
+                    randomDriverPos = 8;
                     raceDriver.get(i).setpoints(k);
                     raceDriver.get(i).setnRaces((raceDriver.get(i).getnRaces()) + 1);
                     break;
                 case 9:
                     int v = (raceDriver.get(i).getpoints());
                     l = v + 18;
-                    randomDriverName=raceDriver.get(i).getname();
-                    randomDriverPos=9;
+                    randomDriverName = raceDriver.get(i).getname();
+                    randomDriverPos = 9;
                     raceDriver.get(i).setpoints(v);
                     raceDriver.get(i).setnRaces((raceDriver.get(i).getnRaces()) + 1);
                     break;
                 case 10:
                     int m = (raceDriver.get(i).getpoints());
                     m = m + 18;
-                    randomDriverName=raceDriver.get(i).getname();
-                    randomDriverPos=10;
+                    randomDriverName = raceDriver.get(i).getname();
+                    randomDriverPos = 10;
                     raceDriver.get(i).setpoints(m);
                     raceDriver.get(i).setnRaces((raceDriver.get(i).getnRaces()) + 1);
                     break;
             }
-            upRace = new Race("test",randomDriverName, randomDriverPos);
+            Race upRace = new Race();
+            upRace = new Race(randomDate(), randomDriverName, randomDriverPos);
             RandomDriverList.add(upRace);
         }
 
@@ -576,13 +589,35 @@ public class Forumala1ChampionshipManager implements ChampionShipManager {
 
     public Object[][] StringRace() {
 
-        String[] columnNames2 = { "Date","Driver Name","Position"};
         Object[][] values2 = new Object[Forumala1ChampionshipManager.raceDriver.size()][3];
         for (int i = 0; i < values2.length; i++) {
             values2[i][0] = RandomDriverList.get(i).getDate();
             values2[i][1] = RandomDriverList.get(i).getDriverName();
             values2[i][2] = RandomDriverList.get(i).getPosition();
         }
-        return (values2);    
+        return (values2);
     }
+
+    private int createRandomIntBetween(int start, int end) {
+        return start + (int) Math.round(Math.random() * (end - start));
+    }
+
+    private LocalDate createRandomDate(int startYear, int endYear) {
+        int day = createRandomIntBetween(1, 28);
+        int month = createRandomIntBetween(1, 12);
+        int year = createRandomIntBetween(startYear, endYear);
+        return LocalDate.of(year, month, day);
+    }
+
+    public String randomDate() {
+        LocalDate randomDate = createRandomDate(2000, 2020);
+        String date = randomDate.toString();
+        return date;
+
+    }
+
+    public void sortDate() {
+        Collections.sort(RandomDriverList, Race.dates);
+    }
+
 }

@@ -9,7 +9,7 @@ public class test2 {
         }
     }
 
-    public static int createRandomIntBetween(int start, int end) {
+     static int createRandomIntBetween(int start, int end) {
         return start + (int) Math.round(Math.random() * (end - start));
     }
 
